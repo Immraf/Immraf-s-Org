@@ -1,0 +1,10 @@
+{
+  "name": "Remix MailSentinel AI",
+  "description": "AI-powered command center for multi-account email intelligence, explainable priority scoring, semantic search, and secure multi-channel notifications.",
+  "requestFramePermissions": [
+    "notifications"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

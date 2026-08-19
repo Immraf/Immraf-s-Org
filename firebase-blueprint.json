@@ -1,0 +1,195 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile and settings",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "fullName": { "type": "string" },
+        "timezone": { "type": "string" },
+        "role": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "email"]
+    },
+    "EmailAccount": {
+      "title": "EmailAccount",
+      "description": "Connected email provider account",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "provider": { "type": "string", "enum": ["gmail", "outlook"] },
+        "emailAddress": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "avatarUrl": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "syncing", "needs_reauth", "disabled", "error"] },
+        "scopes": { "type": "array" },
+        "totalEmailsCount": { "type": "number" },
+        "unreadCount": { "type": "number" },
+        "lastSyncedAt": { "type": "string", "format": "date-time" },
+        "tokenExpiresAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "provider", "emailAddress"]
+    },
+    "EmailMessage": {
+      "title": "EmailMessage",
+      "description": "Ingested and analyzed email message",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "accountId": { "type": "string" },
+        "accountEmail": { "type": "string" },
+        "providerMessageId": { "type": "string" },
+        "threadId": { "type": "string" },
+        "sender": { "type": "string" },
+        "senderName": { "type": "string" },
+        "senderDomain": { "type": "string" },
+        "recipients": { "type": "array" },
+        "subject": { "type": "string" },
+        "bodyText": { "type": "string" },
+        "snippet": { "type": "string" },
+        "receivedAt": { "type": "string", "format": "date-time" },
+        "isRead": { "type": "boolean" },
+        "isStarred": { "type": "boolean" },
+        "isArchived": { "type": "boolean" },
+        "labels": { "type": "array" },
+        "hasAttachment": { "type": "boolean" },
+        "folder": { "type": "string" },
+        "analysis": { "type": "object" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "accountId", "sender", "subject", "receivedAt"]
+    },
+    "UserRule": {
+      "title": "UserRule",
+      "description": "User defined classification or routing rule",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "isActive": { "type": "boolean" },
+        "conditionType": { "type": "string" },
+        "conditionValue": { "type": "string" },
+        "actionType": { "type": "string" },
+        "actionValue": { "type": "string" },
+        "priorityOverride": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "name", "conditionType", "conditionValue", "actionType"]
+    },
+    "NotificationPreference": {
+      "title": "NotificationPreference",
+      "description": "User notification channel preferences and quiet hours",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "pushEnabled": { "type": "boolean" },
+        "whatsappEnabled": { "type": "boolean" },
+        "whatsappPhoneNumber": { "type": "string" },
+        "whatsappThreshold": { "type": "string" },
+        "webPushEnabled": { "type": "boolean" },
+        "dailyDigestEnabled": { "type": "boolean" },
+        "dailyDigestTime": { "type": "string" },
+        "timezone": { "type": "string" },
+        "quietHoursEnabled": { "type": "boolean" },
+        "quietHoursStart": { "type": "string" },
+        "quietHoursEnd": { "type": "string" },
+        "allowCriticalInQuietHours": { "type": "boolean" }
+      },
+      "required": ["id", "userId"]
+    },
+    "NotificationDelivery": {
+      "title": "NotificationDelivery",
+      "description": "Dispatched multi-channel notification log",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "emailId": { "type": "string" },
+        "emailSubject": { "type": "string" },
+        "sender": { "type": "string" },
+        "priority": { "type": "string" },
+        "channel": { "type": "string" },
+        "status": { "type": "string" },
+        "title": { "type": "string" },
+        "body": { "type": "string" },
+        "deliveredAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "emailId", "channel", "status", "deliveredAt"]
+    },
+    "AuditLogEntry": {
+      "title": "AuditLogEntry",
+      "description": "Security and operation audit log entry",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "action": { "type": "string" },
+        "details": { "type": "string" },
+        "ipAddress": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "status": { "type": "string" }
+      },
+      "required": ["id", "userId", "action", "details", "timestamp", "status"]
+    },
+    "DeviceInfo": {
+      "title": "DeviceInfo",
+      "description": "Registered client device for push notifications",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "deviceType": { "type": "string" },
+        "deviceName": { "type": "string" },
+        "pushToken": { "type": "string" },
+        "lastSeenAt": { "type": "string", "format": "date-time" },
+        "isActive": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "deviceType", "deviceName", "pushToken"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile document"
+    },
+    "/accounts/{accountId}": {
+      "schema": "EmailAccount",
+      "description": "Connected email accounts"
+    },
+    "/emails/{emailId}": {
+      "schema": "EmailMessage",
+      "description": "Unified mailbox email messages"
+    },
+    "/rules/{ruleId}": {
+      "schema": "UserRule",
+      "description": "Rules engine configurations"
+    },
+    "/preferences/{preferenceId}": {
+      "schema": "NotificationPreference",
+      "description": "User notification preferences"
+    },
+    "/deliveries/{deliveryId}": {
+      "schema": "NotificationDelivery",
+      "description": "Notification delivery logs"
+    },
+    "/audit_logs/{logId}": {
+      "schema": "AuditLogEntry",
+      "description": "Security audit logs"
+    },
+    "/devices/{deviceId}": {
+      "schema": "DeviceInfo",
+      "description": "Push notification device tokens"
+    }
+  }
+}
